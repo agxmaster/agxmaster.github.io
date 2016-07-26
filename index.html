@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Agxmaster.GitHub.io : blog">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Agxmaster.GitHub.io</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/agxmaster">View on GitHub</a>
+
+          <h1 id="project_title">Agxmaster.GitHub.io</h1>
+          <h2 id="project_tagline">blog</h2>
+
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="类间关系" class="anchor" href="#%E7%B1%BB%E9%97%B4%E5%85%B3%E7%B3%BB" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>类间关系</h2>
+
+<h3>
+<a id="依赖关系" class="anchor" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>依赖关系</h3>
+
+<p>1.依赖和关联很像，但是不属于关联，他和关联的区别在于类与类直接没有关系，只是存在调用，比如学生登陆需要记一次日志。</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">Student</span>{</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第一种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">studentLoginLog</span>(<span class="pl-c1">Log</span> <span class="pl-smi">$log</span>){</span>
+<span class="pl-s1">      <span class="pl-smi">$log</span><span class="pl-k">-&gt;</span>studentLogin();</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第二种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">studentLoginLog</span>(){</span>
+<span class="pl-s1">      <span class="pl-c1">Log</span><span class="pl-k">::</span>write();</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第三种</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">studentLoginLog</span>(){</span>
+<span class="pl-s1">      <span class="pl-smi">$log</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Log</span>();</span>
+<span class="pl-s1">      <span class="pl-smi">$log</span> <span class="pl-k">-&gt;</span> write();</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="关联关系" class="anchor" href="#%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>关联关系</h3>
+
+<p>1.关联关系是一种在类中调用其它类的关系。<br>
+2.关联包括三种（关联、聚合、合成）。<br>
+3.关联关系可以是单向关联也可以是双向关联。
+4.一般用于两个类是平级有关联关系的类中。</p>
+
+<p>比如学生和老师就属于一种双向关联关系，学生有老师，老师有学生，同时学生和老师都可以脱离彼此单独存在。</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">Teacher</span>{</span>
+<span class="pl-s1">  <span class="pl-k">private</span> <span class="pl-smi">$student</span> <span class="pl-k">=</span> <span class="pl-c1">null</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第一种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-c1">__construct</span>(<span class="pl-c1">Student</span> <span class="pl-smi">$student</span>){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">student</span> <span class="pl-k">=</span> <span class="pl-smi">$student</span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第二种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">setStudent</span>(<span class="pl-c1">Student</span> <span class="pl-smi">$student</span>){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">student</span> <span class="pl-k">=</span> <span class="pl-smi">$student</span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//调用</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getMyStudents</span>(){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">student</span><span class="pl-k">-&gt;</span>getStudents();</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">Student</span>{</span>
+<span class="pl-s1">  <span class="pl-k">private</span> <span class="pl-smi">$teacher</span> <span class="pl-k">=</span> <span class="pl-c1">null</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第一种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-c1">__construct</span>(<span class="pl-c1">Teacher</span> <span class="pl-smi">$teacher</span>){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">teacher</span> <span class="pl-k">=</span> <span class="pl-smi">$teacher</span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第二种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">setTeacher</span>(<span class="pl-c1">Teacher</span> <span class="pl-smi">$teacher</span>){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">teacher</span> <span class="pl-k">=</span> <span class="pl-smi">$teacher</span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//调用</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getMyTeacher</span>(){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">teacher</span><span class="pl-k">-&gt;</span>getTeacher();</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="聚合关系" class="anchor" href="#%E8%81%9A%E5%90%88%E5%85%B3%E7%B3%BB" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>聚合关系</h3>
+
+<p>1.聚合用来表示类的从属关系，比如学生和课本，学生拥有课本，但是课本又不只是学生有老师也有，所以课本可以脱离学生存在。</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">Student</span>{</span>
+<span class="pl-s1">  <span class="pl-k">private</span> <span class="pl-smi">$book</span> <span class="pl-k">=</span> <span class="pl-c1">null</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第一种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-c1">__construct</span>(<span class="pl-c1">Book</span> <span class="pl-smi">$book</span>){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">book</span> <span class="pl-k">=</span> <span class="pl-smi">$book</span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第二种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">setBook</span>(<span class="pl-c1">Book</span> <span class="pl-smi">$book</span>){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">book</span> <span class="pl-k">=</span> <span class="pl-smi">$book</span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//调用</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getMyBook</span>(){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">teacher</span><span class="pl-k">-&gt;</span>getBook();</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="组合关系" class="anchor" href="#%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>组合关系</h3>
+
+<p>1.组合是一种强关联关系，一个类不能脱离另一个类，比如学生和成绩。</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">Student</span>{</span>
+<span class="pl-s1">  <span class="pl-k">private</span> <span class="pl-smi">$grades</span> <span class="pl-k">=</span> <span class="pl-c1">null</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第一种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-c1">__construct</span>(){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">grades</span> <span class="pl-k">=</span><span class="pl-k">new</span> <span class="pl-c1">Grades</span>();</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//第二种方式</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">setBook</span>(){</span>
+<span class="pl-s1">      <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">grades</span> <span class="pl-k">=</span><span class="pl-k">new</span> <span class="pl-c1">Grades</span>();</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-c">//调用</span></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getMyBook</span>(){</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">grades</span><span class="pl-k">-&gt;</span>getGrades();</span>
+<span class="pl-s1">    <span class="pl-c">//或者</span></span>
+<span class="pl-s1">    (<span class="pl-k">new</span> <span class="pl-c1">Grades</span>()) <span class="pl-k">-&gt;</span>getGrades();</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="泛化" class="anchor" href="#%E6%B3%9B%E5%8C%96" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>泛化</h3>
+
+<p>泛化就是继承子类拥有父类的所有属性方法，同事也可以复写他们。</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">User</span>{</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-c1">__construct</span>(){}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getUserName</span>(){</span>
+<span class="pl-s1">      <span class="pl-c1">reutrn</span> <span class="pl-s"><span class="pl-pds">'</span>userName<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1">}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">Student</span>{</span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-c1">__construct</span>(){}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getUserName</span>(){</span>
+<span class="pl-s1">    <span class="pl-c1">reutn</span> <span class="pl-s"><span class="pl-pds">'</span>studentName<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="实现" class="anchor" href="#%E5%AE%9E%E7%8E%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>实现</h3>
+
+<p>接口是用于定义行为规范,实现接口的类必须完成接口的所有方法。</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">interface</span> <span class="pl-en">class</span>{</span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">onClass</span>();</span>
+<span class="pl-s1">}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">Student</span> implement class{</span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">onClass</span>(){</span>
+<span class="pl-s1">    <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>Student on class<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1">}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">Teacher</span> implement class{</span>
+<span class="pl-s1">  <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">onClass</span>(){</span>
+<span class="pl-s1">    <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>Teacher on class<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="强弱顺序" class="anchor" href="#%E5%BC%BA%E5%BC%B1%E9%A1%BA%E5%BA%8F" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>强弱顺序</h3>
+
+<p>实现 = 泛化 &gt; 组合 &gt; 聚合 &gt; 关联 &gt; 依赖</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
